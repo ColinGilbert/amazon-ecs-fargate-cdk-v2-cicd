@@ -1,16 +1,11 @@
-FROM public.ecr.aws/amazonlinux/amazonlinux:2022
-RUN yum install python3 && \
-curl -O https://bootstrap.pypa.io/get-pip.py && \
-python3 get-pip.py && \
-pip install --upgrade pip && \
-pip install flask 
+FROM public.ecr.aws/ubuntu/apache2:latest
+# install apache2
 
-RUN alias python=python3
+#RUN apt-get update && apt-get install -y apache2
 
-ENV FLASK_APP app.py
-ENV PLATFORM 'Amazon ECS'
+# port number the container should expose
+EXPOSE 80
 
-WORKDIR /app
-COPY . /app/
+# run apache2
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 
-CMD ["python3", "app.py"]
